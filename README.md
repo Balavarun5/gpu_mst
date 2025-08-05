@@ -4,7 +4,7 @@ A GPU-accelerated implementation of Minimum Spanning Tree using CUDA streams for
 
 ## Overview
 
-This implementation addresses GPU memory limitations by processing graphs in chunks using CUDA streams. When graphs exceed available GPU memory, the mst can be computed by splitting the graph into smaller chunks that fit within memory constraints. CUDA streams enable overlapping of data transfers (CPU ↔ GPU) with kernel execution, allowing computation on one chunk while simultaneously transferring data for subsequent chunks. This streaming approach maximizes GPU utilization and enables processing of arbitrarily large graphs without running out of memory. Standalone gpu version of PHEM work to be published in icpp grand. Work inspired by multicore version [Zhou]([url](https://ae.iti.kit.edu/documents/theses/msThesisZhou.pdf)) which I wrote in cuda. Wanted to check out the performance of cuda atomics in newer machines and was performing decently. Code can run for very large graphs too(assuming vertex set can fit onto device). Ran till Agatha and moliere graphs on DGX, work could be extended for multi-gpu scenarios too. 
+This implementation addresses GPU memory limitations by processing graphs in chunks using CUDA streams. When graphs exceed available GPU memory, the mst can be computed by splitting the graph into smaller chunks that fit within memory constraints. CUDA streams enable overlapping of data transfers (CPU ↔ GPU) with kernel execution, allowing computation on one chunk while simultaneously transferring data for subsequent chunks. This streaming approach maximizes GPU utilization and enables processing of arbitrarily large graphs without running out of memory. Standalone gpu version of PHEM work to be published in icpp grand. Work inspired by multicore version ([Zhou](https://ae.iti.kit.edu/documents/theses/msThesisZhou.pdf)) which I wrote in cuda. Wanted to check out the performance of cuda atomics in newer machines and was performing decently. Code can run for very large graphs too(assuming vertex set can fit onto device). Ran till Agatha and moliere graphs on DGX, work could be extended for multi-gpu scenarios too. 
 
 ## Usage
 
@@ -66,7 +66,7 @@ To verify GPU results against CPU implementation:
 The MST weights should be identical between GPU and CPU implementations.
 
 ## Data
-The data required is in a .mtx format, no need for any binary conversion etc. For example to calculate for [cnr-2000]([url](https://sparse.tamu.edu/LAW/cnr-2000)). Download the .mtx file and run 
+The data required is in a .mtx format, no need for any binary conversion etc. For example to calculate for ([cnr-2000](https://sparse.tamu.edu/LAW/cnr-2000)). Download the .mtx file and run 
 ```bash
 CUDA_MODULE_LOADING=EAGER ./mst --filename cnr-2000.mtx --result-file gpu_result.txt --generate-random-weights   #For streams approach
 ./mst --filename cnr-2000.mtx --result-file gpu_result_monolithic.txt --generate-random-weights --gpu-monolithic #For single chunk(monolithic) approach
