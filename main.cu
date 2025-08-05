@@ -31,7 +31,10 @@ int main(int argc, char* argv[]){
 
   // GPU streams only configuration
   bool use_malloc_managed = false;      // Not using unified memory
-  bool use_streamline = true;           // Always use streamline for GPU streams
+  bool use_streamline = true;           
+  if(cpu_only){
+    use_streamline = false;
+  }
   bool use_cpu_only = cpu_only;         // Use CPU-only based on command line flag
   bool cpu_gpu_streamline = false;      // Not using hybrid CPU-GPU
 
