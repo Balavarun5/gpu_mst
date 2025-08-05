@@ -1111,8 +1111,14 @@ void streamline_boruvka(std::ifstream &input_stream, vertex num_nodes,
       std::ofstream result(result_filename);
       for(vertex i=0; i< num_nodes-1;i++){
         w+=final_msf[i].w;
-        result << final_msf[i].u+1 << " " << final_msf[i].v+1 
-              << " " << final_msf[i].w << "\n";
+	if(final_msf[i].u < final_msf[i].v){
+          result << final_msf[i].u+1 << " " << final_msf[i].v+1 
+                 << " " << final_msf[i].w << "\n";
+	}
+	if(final_msf[i].u > final_msf[i].v){
+          result << final_msf[i].v+1 << " " << final_msf[i].u+1 
+                 << " " << final_msf[i].w << "\n";
+	}
       }
       result.close();
     }

@@ -475,7 +475,12 @@ void new_boruvka(std::string filename, std::string result_filename,
 
       for(large_vertex j=0; j<num_edges_mst; j++){
 	total_weight += mst_array[j].w;
-	result_file << mst_array[j].u + 1 << " " << mst_array[j].v + 1 << " " << mst_array[j].w << std::endl;
+	if(mst_array[j].u < mst_array[j].v){
+	  result_file << mst_array[j].u + 1 << " " << mst_array[j].v + 1 << " " << mst_array[j].w << std::endl;
+	}
+	else{
+	  result_file << mst_array[j].v + 1 << " " << mst_array[j].u + 1 << " " << mst_array[j].w << std::endl;
+	}
       }
       result_file.close();
       std::cout<< "pbbs execution time " << duration_pbbs.count() << " microseconds\n";
