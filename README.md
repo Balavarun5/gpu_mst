@@ -54,6 +54,7 @@ To verify GPU results against CPU implementation:
    sort cpu_result.txt > sorted_cpu.txt
    diff sorted_cpu.txt sorted_gpu.txt
    ```
+   NB: This would only work if there is a unique MST/MSF. Otherwise, a weight comparison and node coverage method would be required.
 
 The MST weights should be identical between GPU and CPU implementations.
 

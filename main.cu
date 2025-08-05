@@ -34,6 +34,7 @@ int main(int argc, char* argv[]){
   bool use_streamline = true;           
   if(cpu_only){
     use_streamline = false;
+    std::cout << use_streamline;
   }
   bool use_cpu_only = cpu_only;         // Use CPU-only based on command line flag
   bool cpu_gpu_streamline = false;      // Not using hybrid CPU-GPU

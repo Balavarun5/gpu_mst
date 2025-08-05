@@ -339,6 +339,7 @@ void new_boruvka(std::string filename, std::string result_filename,
       //chunk_size = num_edges / float_num_chunks;
       chunk_size = vertex(num_edges_large / float_num_chunks);
     }
+    debug = false;
 
     if(debug){
       int number_of_iterations = 10;
@@ -470,9 +471,13 @@ void new_boruvka(std::string filename, std::string result_filename,
                                  stop_pbbs - start_pbbs);
 
       large_vertex total_weight = 0;
+      std::ofstream result_file(result_filename);
+
       for(large_vertex j=0; j<num_edges_mst; j++){
 	total_weight += mst_array[j].w;
+	result_file << mst_array[j].u + 1 << " " << mst_array[j].v + 1 << " " << mst_array[j].w << std::endl;
       }
+      result_file.close();
       std::cout<< "pbbs execution time " << duration_pbbs.count() << " microseconds\n";
       std::cout << "Total weight " << total_weight << std::endl;
       return;
