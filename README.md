@@ -38,17 +38,24 @@ The program outputs:
 
 To verify GPU results against CPU implementation:
 
-1. **Run GPU version:**
+1. **Run GPU Streams version:**
+   Compute mst by calculating chunk by chunk and iteratively finding the final msf. Data transfer streams overlap with kernel execution streams.
    ```bash
    CUDA_MODULE_LOADING=EAGER ./mst --filename input.mtx --result-file gpu_result.txt
    ```
+3. **Run GPU single chunk (monolithic) version:**
+   Compute mst by transferring entire edgelist to device and compute and transfer back
+   ```bash
+   ./mst --filename input.mtx --result-file cpu_result.txt --gpu-monolithic
+   ```
 
-2. **Run CPU verification:**
+4. **Run CPU verification:**
+   Run the PBBS suite mst implementation
    ```bash
    ./mst --filename input.mtx --result-file cpu_result.txt --cpu-only
    ```
 
-3. **Compare results:**
+5. **Compare results:**
    ```bash
    sort gpu_result.txt > sorted_gpu.txt
    sort cpu_result.txt > sorted_cpu.txt
@@ -58,6 +65,13 @@ To verify GPU results against CPU implementation:
 
 The MST weights should be identical between GPU and CPU implementations.
 
+## Data
+The data required is in a .mtx format, no need for any binary conversion etc. For example to calculate for [cnr-2000]([url](https://sparse.tamu.edu/LAW/cnr-2000)). Download the .mtx file and run 
+```bash
+CUDA_MODULE_LOADING=EAGER ./mst --filename cnr-2000.mtx --result-file gpu_result.txt --generate-random-weights   #For streams approach
+./mst --filename cnr-2000.mtx --result-file gpu_result_monolithic.txt --generate-random-weights --gpu-monolithic #For single chunk(monolithic) approach
+./mst --filename cnr-2000.mtx --result-file gpu_result.txt --generate-random-weights --cpu-only                  #For pbbs cpu approach
+```
 ## Performance
 
 - Default configuration optimized for GPU streams processing
