@@ -6,6 +6,8 @@ A GPU-accelerated implementation of Minimum Spanning Tree using CUDA streams for
 
 This implementation addresses GPU memory limitations by processing graphs in chunks using CUDA streams. When graphs exceed available GPU memory, the mst can be computed by splitting the graph into smaller chunks that fit within memory constraints. CUDA streams enable overlapping of data transfers (CPU ↔ GPU) with kernel execution, allowing computation on one chunk while simultaneously transferring data for subsequent chunks. This streaming approach maximizes GPU utilization and enables processing of arbitrarily large graphs without running out of memory. Standalone gpu version of PHEM work to be published in icpp grand. Work inspired by multicore version [Zhou]([url](https://ae.iti.kit.edu/documents/theses/msThesisZhou.pdf)) which I wrote in cuda. Wanted to check out the performance of cuda atomics in newer machines and was performing decently. Code can run for very large graphs too(assuming vertex set can fit onto device). Ran till Agatha and moliere graphs on DGX, work could be extended for multi-gpu scenarios too. 
 
+Work to appear in ICPP-2025, Grand
+
 ## Usage
 
 ```bash
