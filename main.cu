@@ -7,6 +7,7 @@ int main(int argc, char* argv[]){
     "--filename <input_file> --result-file <output_file> [options]\n"
     "GPU Streams MST - GPU-only stream processing version\n"
     "Options:\n"
+    "  --gpu-monolithic                Calculate by transferring entire graph to device without chunking or streams\n"
     "  --cpu-only                      Use CPU-only processing instead of GPU\n"
     "  --generate-random-weights       Generate random weights for edges\n"
     "  --save-weighted-graph          Save the weighted graph\n"
@@ -23,6 +24,7 @@ int main(int argc, char* argv[]){
 
   // Optional arguments with defaults optimized for GPU streams
   bool cpu_only = P.getOption("--cpu-only");
+  bool gpu_monolithic = P.getOption("--gpu-monolithic");
   bool generate_random_weights = P.getOption("--generate-random-weights");
   bool save_weighted_graph = P.getOption("--save-weighted-graph");
   
@@ -38,6 +40,9 @@ int main(int argc, char* argv[]){
   }
   bool use_cpu_only = cpu_only;         // Use CPU-only based on command line flag
   bool cpu_gpu_streamline = false;      // Not using hybrid CPU-GPU
+  if(gpu_monolithic){
+    use_streamline=false;
+  }
 
   std::cout << "Running GPU Streams MST with:" << std::endl;
   std::cout << "  Input file: " << filename << std::endl;

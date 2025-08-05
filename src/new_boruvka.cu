@@ -493,10 +493,18 @@ void new_boruvka(std::string filename, std::string result_filename,
 
     boruvka_for_edge_array(edges, num_nodes, num_edges, msf, number_of_filled_edges, result_filename);
     large_vertex total_weight=0;
+    std::ofstream result_file(result_filename);
     for(vertex i=0; i<num_nodes; i++){
       edge e = msf[i];
       total_weight+=e.w;
+      if(e.u < e.v){
+	result_file << e.u+1 << " " << e.v+1 << " " << e.w << std::endl;
+      }
+      if(e.u > e.v){
+	result_file << e.v+1 << " " << e.u+1 << " " << e.w << std::endl;
+      }
     }
+    result_file.close();
     std::cout << "Total weight " << total_weight << std::endl;
 
     //Free all allocs
